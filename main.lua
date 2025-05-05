@@ -4,9 +4,11 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
 
 local shader_code = [[
 
-vec4 effect(vec4 color,Image iamge, vec2 uvs, vec2 screen_coords){
+vec4 effect(vec4 color,Image image, vec2 uvs, vec2 screen_coords){
 
-  return vec4(1.0,0.0,0.0,1.0);
+  vec4 pixel = Texel(image, uvs);
+
+  return pixel;
 }
 
 ]]
