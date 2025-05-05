@@ -2,11 +2,34 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
     require("lldebugger").start()
   end
 
-print("hello World")
 
- function love.draw()
-    love.graphics.print("Hello World!", 400, 300)
-    end
+
+
+local image
+
+
+function love.load()
+
+    image = love.graphics.newImage("carpathianSprites.png")
+
+end
+
+
+function love.update(dt)
+end
+
+
+function love.draw()
+    love.graphics.draw(image,0,0)
+end
+
+
+function love.keypressed(key)
+
+    if key == "r" then love.event.quit "restart" end
+
+end
+
 
 
 --sits at the bottom of our script
