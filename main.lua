@@ -2,16 +2,23 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
     require("lldebugger").start()
   end
 
+local shader_code = [[
 
+vec4 effect(vec4 color,Image iamge, vec2 uvs, vec2 screen_coords){
+
+  return vec4(1.0,0.0,0.0,1.0);
+}
+
+]]
 
 
 local image
-
+local shader
 
 function love.load()
 
     image = love.graphics.newImage("carpathianSprites.png")
-
+    shader = love.graphics.newShader(shader_code)
 end
 
 
@@ -20,7 +27,9 @@ end
 
 
 function love.draw()
+    love.graphics.setShader(shader)
     love.graphics.draw(image,0,0)
+    love.graphics.setShader()
 end
 
 
