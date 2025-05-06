@@ -19,12 +19,7 @@ local maskShader
 
 local mainCanvas
 
-local player = {
-    x=love.graphics.getWidth()/2,
-    y=love.graphics.getHeight()/2,
-    r=math.rad(45),
-    speed = 50
-}
+local player
 
 function love.load()
     love.window.setMode(1200,800)
@@ -32,6 +27,14 @@ function love.load()
     maskShader = love.graphics.newShader(shader_code2)
     maskCanvas = love.graphics.newCanvas();
     mainCanvas = love.graphics.newCanvas();
+
+    player = {
+        x=love.graphics.getWidth()/2,
+        y=love.graphics.getHeight()/2,
+        r=math.rad(45),
+        speed = 50
+    }
+
 end
 
 
@@ -53,7 +56,7 @@ function love.draw()
 
     --mask canvas
     love.graphics.setCanvas(maskCanvas)
-    love.graphics.setColor({0.2,0.2,0.2})
+    love.graphics.setColor({0.1,0.1,0.1})
     love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
     love.graphics.setColor(1,1,1)
     love.graphics.circle("fill",player.x,player.y,50)
@@ -61,12 +64,13 @@ function love.draw()
     local p1 = {}
     local p2 = {}
     local viewAngle = 40
+    local length = 1000
 
-    p1.x = (math.sin(player.r - math.rad(viewAngle/2)) * 500) + player.x
-    p1.y = (math.cos(player.r - math.rad(viewAngle/2)) * 500) + player.y
+    p1.x = (math.cos(player.r - math.rad(viewAngle/2)) * length) + player.x
+    p1.y = (math.sin(player.r - math.rad(viewAngle/2)) * length) + player.y
 
-    p2.x = (math.sin(player.r + math.rad(viewAngle/2)) * 500) + player.x
-    p2.y = (math.cos(player.r + math.rad(viewAngle/2)) * 500) + player.y
+    p2.x = (math.cos(player.r + math.rad(viewAngle/2)) * length) + player.x
+    p2.y = (math.sin(player.r + math.rad(viewAngle/2)) * length) + player.y
 
     love.graphics.polygon("fill",{player.x,player.y,p1.x,p1.y,p2.x,p2.y})
 
