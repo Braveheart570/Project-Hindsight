@@ -9,15 +9,15 @@ function loadFile(file)
     return content
 end
 
-local shader_code = loadFile("shader.fs")
+local shader_code = loadFile("phong.fs")
 
 
 local image
 local shader
 
 function love.load()
-
-    image = love.graphics.newImage("carpathianSprites.png")
+    love.window.setMode(1200,800)
+    image = love.graphics.newImage("map.png")
     shader = love.graphics.newShader(shader_code)
 end
 
@@ -28,8 +28,19 @@ end
 
 function love.draw()
     love.graphics.setShader(shader)
-    love.graphics.setColor(1,0,0)
-    love.graphics.draw(image,0,0)
+
+    shader:send("screen",{
+        love.graphics.getWidth(),
+        love.graphics.getHeight()
+    })
+
+    shader:send("num_lights",1)
+
+    shader:send("lights[0].position",{love.graphics.getWidth()/2.0,love.graphics.getHeight()/2.0})
+    shader:send("lights[0].diffuse",{1.0,1.0,1.0})
+    shader:send("lights[0].power",64)
+    
+    love.graphics.draw(image,love.graphics.getWidth()/2 - image:getWidth()/2,love.graphics.getHeight()/2 - image:getHeight()/2)
     love.graphics.setShader()
 end
 
