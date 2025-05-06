@@ -9,16 +9,18 @@ function loadFile(file)
     return content
 end
 
-local shader_code = loadFile("phong.fs")
+local shader_code2 = loadFile("mask.fs")
 
 
 local image
-local shader
+local maskImage
+local maskShader
 
 function love.load()
     love.window.setMode(1200,800)
     image = love.graphics.newImage("map.png")
-    shader = love.graphics.newShader(shader_code)
+    maskImage = love.graphics.newImage("overlay1.png")
+    maskShader = love.graphics.newShader(shader_code2)
 end
 
 
@@ -27,18 +29,10 @@ end
 
 
 function love.draw()
-    love.graphics.setShader(shader)
+    love.graphics.setShader(maskShader)
 
-    shader:send("screen",{
-        love.graphics.getWidth(),
-        love.graphics.getHeight()
-    })
+    maskShader:send("mask",maskImage)
 
-    shader:send("num_lights",1)
-
-    shader:send("lights[0].position",{love.graphics.getWidth()/2.0,love.graphics.getHeight()/2.0})
-    shader:send("lights[0].diffuse",{1.0,1.0,1.0})
-    shader:send("lights[0].power",64)
     
     love.graphics.draw(image,love.graphics.getWidth()/2 - image:getWidth()/2,love.graphics.getHeight()/2 - image:getHeight()/2)
     love.graphics.setShader()
