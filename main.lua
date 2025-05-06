@@ -33,13 +33,19 @@ end
 
 function love.draw()
 
+    --mask canvas
     love.graphics.setCanvas(maskCanvas)
     love.graphics.setColor({0.2,0.2,0.2})
     love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
     love.graphics.setColor(1,1,1)
-    love.graphics.circle("fill",love.graphics.getWidth()/2,love.graphics.getHeight()/2,300)
+    love.graphics.polygon("fill",{300,300,600,600,300,600})
+
+    --scene canvas
     love.graphics.setCanvas(mainCanvas)
     love.graphics.draw(image,love.graphics.getWidth()/2 - image:getWidth()/2,love.graphics.getHeight()/2 - image:getHeight()/2)
+
+
+    -- rendering
     love.graphics.setCanvas()
     love.graphics.setShader(maskShader)
     maskShader:send("mask",maskCanvas)
