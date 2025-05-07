@@ -13,6 +13,14 @@ function Wall:draw()
     love.graphics.rectangle("fill",self.x,self.y,self.w,self.h)
 end
 
+local function vectorMagSqr(vector)
+    return vector[1] * vector[1] + vector[2] * vector[2]
+end
+
+local function vectorMag(vector)
+    return math.sqrt(vectorMagSqr(vector))
+end
+
 local function Clamp(val,min,max)
     if val > max then return max end
     if val < min then return min end
@@ -26,13 +34,21 @@ end
 
 local function PointToLineDistance(p1,p2,p3)
 
-    local slope = {p1[1]-p2[1],p1[2]-p2[2]}
-    local param = Clamp(Dot({p3[1]- p1[1],p3[2]- p1[2]},slope) / (slope[1]*slope[1]+slope[2]*slope[2]),0.0,1.0)
-    local nearestPoint = {p1[1]+slope[1]*param,p1[2]+slope[2]*param}
+    local slope = {
+        p1[1]-p2[1],
+        p1[2]-p2[2]
+    }
+
+    local param = Clamp(Dot({p3[1]- p1[1],p3[2]- p1[2]},slope) / vectorMagSqr(slope),0.0,1.0)
+
+    local nearestPoint = {
+        p1[1]+slope[1]*param,
+        p1[2]+slope[2]*param
+    }
 
     local returnVector = {p3[1]-nearestPoint[1],p3[2]-nearestPoint[2]}
 
-    return math.sqrt(returnVector[1]*returnVector[1] + returnVector[2]*returnVector[2])
+    return vectorMag(returnVector)
 
 end
 
@@ -48,9 +64,9 @@ function Wall:CheckCollisionWithCircle(cx,cy,cr)
     }
 
     --vertex collision
-    for i = 0, 4, 1 do
-        local deltaX = self.x - cx
-        local deltaY = self.y - cy
+    for i = 1, 4, 1 do
+        local deltaX = vertexs[i][1] - cx
+        local deltaY = vertexs[i][2] - cy
         if math.sqrt(deltaX*deltaX + deltaY * deltaY) < cr then
             return true
         end

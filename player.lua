@@ -3,6 +3,7 @@ Player = {
     x=CanvasWidth/2,
     y=CanvasHeight/2,
     r=math.rad(45),
+    size = 30,
     speed = 150
 }
 
@@ -29,7 +30,7 @@ end
 function Player:draw()
 
     love.graphics.setColor(1,1,0)
-    love.graphics.circle("fill",Player.x,Player.y,30)
+    love.graphics.circle("fill",Player.x,Player.y,Player.size)
 
 end
 

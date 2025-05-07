@@ -7,16 +7,15 @@ local walls = {}
 
 function Level:new()
     local Wall = require("wall")
-    table.insert(walls,Wall(CanvasWidth/2 - 200,CanvasHeight/2 - 25,30,100))
+    --table.insert(walls,Wall(CanvasWidth/2 - 200,CanvasHeight/2 - 25,30,100))
+    table.insert(walls,Wall(CanvasWidth/2 + 200,CanvasHeight/2 + 25,200,200))
 end
 
 function Level:update(dt)
 
     Player:update(dt)
 
-    for i,v in ipairs(walls)do
-        print(v:CheckCollisionWithCircle(Player.x,Player.y,Player.r))
-    end
+    
     
 end
 
@@ -31,11 +30,16 @@ function Level:drawEnv()
     end
     Player:draw()
 
+    love.graphics.setColor(0,1,0)
+    love.graphics.setFont(love.graphics.newFont(20))
+    for i,v in ipairs(walls)do
+        love.graphics.print(i .. " : " .. tostring(v:CheckCollisionWithCircle(Player.x,Player.y,Player.size)),Player.x - 300,Player.y - 300 + 25*i)
+    end
 end
 
 function Level:drawEntities()
     love.graphics.setColor(1,0,0)
-    love.graphics.circle("fill",CanvasWidth/2 + 200,CanvasHeight/2 + 100,50)
+    love.graphics.circle("fill",CanvasWidth/2 + 200,CanvasHeight/2 - 100,50)
 
 end
 
