@@ -55,23 +55,29 @@ function love.draw()
 
     --scene canvas
     love.graphics.setCanvas(envCanvas)
-    love.graphics.setColor({1,1,1})
     Screens[1]:drawEnv()
 
 
     --hidden canvas
     love.graphics.setCanvas(entityCanvas)
-    love.graphics.setColor({1,1,1})
     Screens[1]:drawEntities()
 
 
     -- rendering
     love.graphics.setCanvas()
+
+    love.graphics.clear()
+    love.graphics.push()
+    love.graphics.translate(-Player.x + love.graphics.getWidth()/2,-Player.y + love.graphics.getHeight()/2)
+
     love.graphics.setShader(maskShader)
     maskShader:send("mask",visionMaskCanvas)
     maskShader:send("entities",entityCanvas)
     love.graphics.setColor({1,1,1})
     love.graphics.draw(envCanvas)
+
+    love.graphics.pop()
+
     love.graphics.setShader()
 
 

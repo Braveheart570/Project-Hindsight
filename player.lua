@@ -37,8 +37,8 @@ function Player:update(dt)
     -- view control
     local mouseX, mouseY = love.mouse.getPosition()
 
-    local deltaMouseX = mouseX - Player.x
-    local deltaMouseY = mouseY - Player.y
+    local deltaMouseX = mouseX - love.graphics.getWidth()/2
+    local deltaMouseY = mouseY - love.graphics.getHeight()/2
 
     Player.r = math.atan2(deltaMouseY,deltaMouseX)
 
