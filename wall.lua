@@ -35,8 +35,8 @@ end
 local function PointToLineDistance(p1,p2,p3)
 
     local slope = {
-        p1[1]-p2[1],
-        p1[2]-p2[2]
+        p2[1]-p1[1],
+        p2[2]-p1[2]
     }
 
     local param = Clamp(Dot({p3[1]- p1[1],p3[2]- p1[2]},slope) / vectorMagSqr(slope),0.0,1.0)
@@ -81,6 +81,8 @@ function Wall:CheckCollisionWithCircle(cx,cy,cr)
     then
         return true
     end
+
+    
 
     return false
 
