@@ -13,6 +13,10 @@ end
 function Level:update(dt)
 
     Player:update(dt)
+
+    for i,v in ipairs(walls)do
+        print(v:CheckCollisionWithCircle(Player.x,Player.y,Player.r))
+    end
     
 end
 
