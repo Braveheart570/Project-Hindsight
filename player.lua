@@ -1,13 +1,13 @@
 
 Player = {
-    x=love.graphics.getWidth()/2,
-    y=love.graphics.getHeight()/2,
+    x=CanvasWidth/2,
+    y=CanvasHeight/2,
     r=math.rad(45),
     speed = 150
 }
 
 function Player:drawVisionMask()
-    love.graphics.setColor({0.3,0.3,0.4})
+    love.graphics.setColor({0.6,0.6,0.7})
     love.graphics.rectangle("fill",0,0,CanvasWidth,CanvasHeight)
     love.graphics.setColor(1,1,1)
     love.graphics.circle("fill",Player.x,Player.y,50)
@@ -43,10 +43,10 @@ function Player:update(dt)
     Player.r = math.atan2(deltaMouseY,deltaMouseX)
 
 
-    if love.keyboard.isDown("w") then
+    if love.keyboard.isDown("s") then
         Player.x = Player.x - math.cos(Player.r) * Player.speed * dt
         Player.y = Player.y - math.sin(Player.r) * Player.speed * dt
-    elseif love.keyboard.isDown("s") then
+    elseif love.keyboard.isDown("w") then
         Player.x = Player.x + math.cos(Player.r) * Player.speed * dt
         Player.y = Player.y + math.sin(Player.r) * Player.speed * dt
     end

@@ -3,8 +3,11 @@ local Level = Screen:extend()
 
 require "Player"
 
+local walls = {}
+
 function Level:new()
-    
+    local Wall = require("wall")
+    table.insert(walls,Wall(CanvasWidth/2 - 200,CanvasHeight/2 - 25,30,100))
 end
 
 function Level:update(dt)
@@ -19,13 +22,16 @@ function Level:drawEnv()
     love.graphics.rectangle("fill",0,0,CanvasWidth,CanvasHeight/2)
     love.graphics.setColor(0,0.7,0.1)
     love.graphics.rectangle("fill",0,CanvasHeight/2,CanvasWidth,CanvasHeight)
+    for i,v in ipairs(walls)do
+        v:draw()
+    end
     Player:draw()
 
 end
 
 function Level:drawEntities()
     love.graphics.setColor(1,0,0)
-    love.graphics.circle("fill",100,600,50)
+    love.graphics.circle("fill",CanvasWidth/2 + 200,CanvasHeight/2 + 100,50)
 
 end
 
