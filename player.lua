@@ -7,7 +7,7 @@ Player = {
 }
 
 function Player:drawVisionMask()
-    love.graphics.setColor({0.2,0.2,0.2})
+    love.graphics.setColor({0.3,0.3,0.4})
     love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
     love.graphics.setColor(1,1,1)
     love.graphics.circle("fill",Player.x,Player.y,50)

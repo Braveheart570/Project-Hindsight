@@ -47,7 +47,7 @@ end
 
 
 function love.draw()
-
+    
     --mask canvas
     love.graphics.setCanvas(visionMaskCanvas)
     Player:drawVisionMask()
@@ -61,8 +61,6 @@ function love.draw()
 
     --hidden canvas
     love.graphics.setCanvas(entityCanvas)
-    love.graphics.setColor({0,0,0})
-    love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
     love.graphics.setColor({1,1,1})
     Screens[1]:drawEntities()
 
@@ -75,6 +73,8 @@ function love.draw()
     love.graphics.setColor({1,1,1})
     love.graphics.draw(envCanvas)
     love.graphics.setShader()
+
+
 end
 
 

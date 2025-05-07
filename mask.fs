@@ -8,7 +8,7 @@ vec4 effect(vec4 color,Image image, vec2 uvs, vec2 screen_coords){
     vec4 entityPixel = Texel(entities,uvs);
     vec4 maskPixel = Texel(mask,uvs);
 
-    if(entityPixel != vec4(0,0,0,1) && maskPixel == vec4(1,1,1,1)){
+    if(entityPixel != vec4(0,0,0,0) && maskPixel == vec4(1,1,1,1)){
         return entityPixel * color;
     }
 

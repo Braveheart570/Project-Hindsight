@@ -14,16 +14,18 @@ function Level:update(dt)
 end
 
 function Level:drawEnv()
+    
     love.graphics.setColor(0.3,0,1)
     love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight()/2)
     love.graphics.setColor(0,0.7,0.1)
     love.graphics.rectangle("fill",0,love.graphics.getHeight()/2,love.graphics.getWidth(),love.graphics.getHeight())
     Player:draw()
+    
 end
 
 function Level:drawEntities()
     love.graphics.setColor(1,0,0)
-    love.graphics.circle("fill",100,100,50)
+    love.graphics.circle("fill",100,600,50)
 
 end
 
