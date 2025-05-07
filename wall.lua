@@ -53,38 +53,14 @@ local function PointToLineDistance(p1,p2,p3)
 end
 
 function Wall:CheckCollisionWithCircle(cx,cy,cr)
-    
-    
 
-    local vertexs = {
-        {self.x,self.y},
-        {self.x + self.w,self.y},
-        {self.x + self.w,self.y + self.h},
-        {self.x,self.y + self.h},
-    }
+    local closestX = math.max(self.x, math.min(cx, self.x + self.w))
+    local closestY = math.max(self.y, math.min(cy, self.y + self.h))
 
-    --vertex collision
-    for i = 1, 4, 1 do
-        local deltaX = vertexs[i][1] - cx
-        local deltaY = vertexs[i][2] - cy
-        if math.sqrt(deltaX*deltaX + deltaY * deltaY) < cr then
-            return true
-        end
-    end
+    local dx = cx - closestX
+    local dy = cy - closestY
 
-    --edge collision
-    if 
-    PointToLineDistance(vertexs[1],vertexs[2],{cx,cy}) < cr or
-    PointToLineDistance(vertexs[2],vertexs[3],{cx,cy}) < cr or
-    PointToLineDistance(vertexs[3],vertexs[4],{cx,cy}) < cr or
-    PointToLineDistance(vertexs[4],vertexs[1],{cx,cy}) < cr
-    then
-        return true
-    end
-
-    
-
-    return false
+    return (dx * dx + dy * dy) < (cr * cr)
 
 end
 
