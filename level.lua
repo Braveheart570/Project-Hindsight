@@ -16,11 +16,11 @@ end
 function Level:drawEnv()
     
     love.graphics.setColor(0.3,0,1)
-    love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight()/2)
+    love.graphics.rectangle("fill",0,0,CanvasWidth,CanvasHeight/2)
     love.graphics.setColor(0,0.7,0.1)
-    love.graphics.rectangle("fill",0,love.graphics.getHeight()/2,love.graphics.getWidth(),love.graphics.getHeight())
+    love.graphics.rectangle("fill",0,CanvasHeight/2,CanvasWidth,CanvasHeight)
     Player:draw()
-    
+
 end
 
 function Level:drawEntities()

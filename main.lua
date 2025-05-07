@@ -25,9 +25,13 @@ function love.load()
     --shaders
     maskShader = love.graphics.newShader(loadFile("mask.fs"))
     --canvases
-    visionMaskCanvas = love.graphics.newCanvas();
-    envCanvas = love.graphics.newCanvas();
-    entityCanvas = love.graphics.newCanvas();
+    CanvasWidth, CanvasHeight = love.window.getMode()
+    CanvasWidth = CanvasWidth*6
+    CanvasHeight = CanvasHeight*6
+
+    visionMaskCanvas = love.graphics.newCanvas(CanvasWidth, CanvasHeight);
+    envCanvas = love.graphics.newCanvas(CanvasWidth, CanvasHeight);
+    entityCanvas = love.graphics.newCanvas(CanvasWidth, CanvasHeight);
 
     local Level = require "level"
 
