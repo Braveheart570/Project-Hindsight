@@ -2,7 +2,8 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
     require("lldebugger").start()
   end
 
-function loadFile(file)
+  -- loads files as a string
+local function loadFile(file)
     local f = assert(io.open(file, "rb"))
     local content = f:read("*all")
     f:close()
@@ -11,110 +12,85 @@ end
 
 local maskShader
 
-local image
+local visionMaskCanvas
+local envCanvas
+local entityCanvas
 
-local maskCanvas
+local Screens = {}
 
 
-
-local mainCanvas
-
-local hiddenCanvas --for hidden entities
-
-local player
 
 function love.load()
     love.window.setMode(1200,800)
-    image = love.graphics.newImage("map.png")
+    --shaders
     maskShader = love.graphics.newShader(loadFile("mask.fs"))
-    maskCanvas = love.graphics.newCanvas();
-    mainCanvas = love.graphics.newCanvas();
-    hiddenCanvas = love.graphics.newCanvas();
+    --canvases
+    visionMaskCanvas = love.graphics.newCanvas();
+    envCanvas = love.graphics.newCanvas();
+    entityCanvas = love.graphics.newCanvas();
 
+    local Level = require "level"
 
-    player = {
-        x=love.graphics.getWidth()/2,
-        y=love.graphics.getHeight()/2,
-        r=math.rad(45),
-        speed = 50
-    }
+    table.insert(Screens,Level())
+
+    
 
 end
 
 
 function love.update(dt)
 
-    if love.keyboard.isDown("d") then
-        player.r = player.r + math.rad(player.speed)*dt
-    elseif love.keyboard.isDown("a") then
-        player.r = player.r - math.rad(player.speed)*dt
-    end
+    Screens[1]:update(dt)
 
 
-    player.vx = math.sin(player.r)
-    player.vy = math.cos(player.r)
 end
 
 
 function love.draw()
 
     --mask canvas
-    love.graphics.setCanvas(maskCanvas)
-    love.graphics.setColor({0.2,0.2,0.2})
-    love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
-    love.graphics.setColor(1,1,1)
-    love.graphics.circle("fill",player.x,player.y,50)
-
-    local p1 = {}
-    local p2 = {}
-    local viewAngle = 40
-    local length = 1000
-
-    p1.x = (math.cos(player.r - math.rad(viewAngle/2)) * length) + player.x
-    p1.y = (math.sin(player.r - math.rad(viewAngle/2)) * length) + player.y
-
-    p2.x = (math.cos(player.r + math.rad(viewAngle/2)) * length) + player.x
-    p2.y = (math.sin(player.r + math.rad(viewAngle/2)) * length) + player.y
-
-    love.graphics.polygon("fill",{player.x,player.y,p1.x,p1.y,p2.x,p2.y})
-
-
-    --hidden canvas
-    love.graphics.setCanvas(hiddenCanvas)
-    love.graphics.setColor({0,0,0})
-    love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
-    love.graphics.setColor({1,0,0})
-    love.graphics.circle("fill",love.graphics.getWidth()/2 + 200, love.graphics.getHeight()/2 + 100,50)
+    love.graphics.setCanvas(visionMaskCanvas)
+    Player:drawVisionMask()
 
 
     --scene canvas
-    love.graphics.setCanvas(mainCanvas)
+    love.graphics.setCanvas(envCanvas)
     love.graphics.setColor({1,1,1})
-    love.graphics.draw(image,love.graphics.getWidth()/2 - image:getWidth()/2,love.graphics.getHeight()/2 - image:getHeight()/2)
+    Screens[1]:drawEnv()
+
+
+    --hidden canvas
+    love.graphics.setCanvas(entityCanvas)
+    love.graphics.setColor({0,0,0})
+    love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
+    love.graphics.setColor({1,1,1})
+    Screens[1]:drawEntities()
 
 
     -- rendering
     love.graphics.setCanvas()
     love.graphics.setShader(maskShader)
-    maskShader:send("mask",maskCanvas)
-    maskShader:send("entities",hiddenCanvas)
-    love.graphics.draw(mainCanvas)
-    love.graphics.setShader()
-
-
-
+    maskShader:send("mask",visionMaskCanvas)
+    maskShader:send("entities",entityCanvas)
+    love.graphics.setColor({1,1,1})
+    love.graphics.draw(envCanvas)
     love.graphics.setShader()
 end
 
 
 function love.keypressed(key)
 
-    if key == "r" then love.event.quit "restart" end
+    Screens[1]:keypressed(key)
 
 end
 
 
 
+function love.mousepressed(key)
+
+    Screens[1]:mousepressed(key)
+
+end
 
 --sits at the bottom of our script
 local love_errorhandler = love.errorhandler
