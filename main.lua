@@ -96,9 +96,9 @@ end
 
 
 
-function love.mousepressed(key)
-
-    Screens[1]:mousepressed(key)
+function love.mousepressed(x,y,button)
+    
+    Screens[1]:mousepressed(x,y,button)
 
 end
 

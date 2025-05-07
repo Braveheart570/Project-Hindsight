@@ -1,3 +1,6 @@
+local Bullet = require("bullet")
+Bullets = {}
+
 
 Player = {
     x=CanvasWidth/2,
@@ -32,6 +35,10 @@ function Player:draw()
     love.graphics.setColor(1,1,0)
     love.graphics.circle("fill",Player.x,Player.y,Player.size)
 
+    for i,v in ipairs(Bullets) do
+        v:draw()
+    end
+
 end
 
 function Player:update(dt)
@@ -43,7 +50,7 @@ function Player:update(dt)
 
     Player.r = math.atan2(deltaMouseY,deltaMouseX)
 
-
+    --movement code
     if love.keyboard.isDown("s") then
         Player.x = Player.x - math.cos(Player.r) * Player.speed * dt
         Player.y = Player.y - math.sin(Player.r) * Player.speed * dt
@@ -52,6 +59,13 @@ function Player:update(dt)
         Player.y = Player.y + math.sin(Player.r) * Player.speed * dt
     end
 
+    --bullet code
+    for i,v in ipairs(Bullets) do
+        v:update(dt)
+        if v.lifetime <= 0 then
+            table.remove(Bullets,i)
+        end
+    end
 end
 
 
@@ -60,4 +74,9 @@ function Player:keypressed(key)
 end
 
 function Player:mousepressed(x,y,button)
+    if(button == 1)then
+        local vx = math.cos(Player.r)
+        local vy = math.sin(Player.r)
+        table.insert(Bullets,Bullet(Player.x,Player.y,vx,vy))
+    end
 end
