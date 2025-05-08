@@ -7,7 +7,7 @@ Player = {
     y=CanvasHeight/2,
     r=math.rad(45),
     size = 30,
-    speed = 150
+    speed = 150,
 }
 
 function Player:drawVisionMask()
@@ -42,6 +42,7 @@ function Player:draw()
 end
 
 function Player:update(dt)
+
     -- view control
     local mouseX, mouseY = love.mouse.getPosition()
 
@@ -89,14 +90,22 @@ function Player:resolveWallCollision(wall)
 
     local distToClosestX = Player.x - closestX
     local distToClosestY = Player.y - closestY
-
-    local normalAngle = math.atan2(distToClosestY,distToClosestX)
     
 
     if distToClosestX == 0 then
-        Player.y = Player.y + distToClosestY
+        if closestY > Player.y then
+            Player.y = closestY - Player.size
+        else
+            Player.y = closestY + Player.size
+        end
+        
     else
-        Player.x = Player.x -Player.r + distToClosestX
+        if closestX > Player.x then
+            Player.x = closestX - Player.size
+        else
+            Player.x = closestX + Player.size
+        end
+        
     end
 
     

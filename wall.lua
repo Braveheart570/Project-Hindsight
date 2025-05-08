@@ -6,6 +6,7 @@ function Wall:new(x,y,w,h)
     self.y = y
     self.w = w
     self.h = h
+    
 end
 
 function Wall:draw()
