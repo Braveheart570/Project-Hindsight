@@ -117,8 +117,8 @@ function Player:resolveWallCollision(wall)
         end
         
     end
+end
 
-    
-    
-
+function Player:takeDamage()
+    self.health = self.health - 1
 end

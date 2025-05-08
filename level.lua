@@ -36,21 +36,31 @@ function Level:update(dt)
     end
 
     
-    -- bullet collisions
+   
     for i,enemy in ipairs(Enemies)do
+
+         -- bullet collisions
         for j, bullet in ipairs(Player.Bullets)do
             if CircleCircleCollision(bullet.x,bullet.y,bullet.size,enemy.x,enemy.y,enemy.size)then
                 table.remove(Player.Bullets,j)
                 enemy.health = enemy.health - 1
                 enemy.state = 1
+                enemy.pauseTimer = enemy.pauseTime; -- todo this should be done somewhere else
                 if enemy.health <= 0 then
                     table.remove(Enemies,i)
                 end
             end
         end
+
+        --enemy vs player collisions
+        if enemy.state ~= 2 and CircleCircleCollision(Player.x,Player.y,Player.size,enemy.x,enemy.y,enemy.size)then
+            Player:takeDamage()
+            enemy.state = 2
+        end
+
+        -- update
         enemy:update(dt)
-        --enemy vs player collisions todo
-        
+
     end
 
     

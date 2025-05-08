@@ -10,10 +10,13 @@ function Enemy:new(x,y,r)
     self.health = 5
     self.detectionRadius = 150
     self.loseTargetRadius = 450
+    self.pauseTime = 6
+    self.pauseTimer = self.pauseTime
     --[[
     states:
     0 - wander
     1 - attack
+    2 - pause
     ]]
     self.state = 0
 end
@@ -39,6 +42,12 @@ function Enemy:update(dt)
         self.x = self.x + self.speed * deltaX * dt
         self.y = self.y + self.speed * deltaY * dt
     
+    elseif self.state == 2 then
+        self.pauseTimer = self.pauseTimer - dt
+        if self.pauseTimer <= 0 then
+            self.state = 0
+            self.pauseTimer = self.pauseTime
+        end
     end
 end
 
@@ -80,7 +89,6 @@ function Enemy:resolveWallCollision(wall)
     end
 
 end
-
 
 
 return Enemy
