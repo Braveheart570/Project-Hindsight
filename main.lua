@@ -56,7 +56,13 @@ function love.draw()
     
     --mask canvas
     love.graphics.setCanvas(visionMaskCanvas)
-    Player:drawVisionMask()
+    if Screens[1].renderPlayerView == true then
+        Player:drawVisionMask()
+    else
+        love.graphics.setColor(1,1,1)
+        love.graphics.rectangle("fill",0,0,CanvasWidth,CanvasHeight)
+    end
+    
 
 
     --scene canvas

@@ -3,6 +3,7 @@ local Object = require "classic"
 local Screen = Object:extend()
 
 function Screen:new()
+    self.renderPlayerView = false
 end
 
 function Screen:update(dt)

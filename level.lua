@@ -7,6 +7,8 @@ local walls = {}
 local Enemies = {}
 
 function Level:new()
+    self.super:new()
+    self.renderPlayerView = true
     local Wall = require("wall")
     local Enemy = require("enemy")
 
