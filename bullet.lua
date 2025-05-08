@@ -6,7 +6,7 @@ function Bullet:new(x,y,vx,vy)
     self.y = y
     self.vx = vx
     self.vy = vy
-    self.speed = 200
+    self.speed = 800
     self.lifetime = 10
     self.size = 10
 end
@@ -21,11 +21,26 @@ function Bullet:update(dt)
 
 end
 
-
-
 function Bullet:draw()
     love.graphics.setColor(1,1,0)
     love.graphics.circle("fill",self.x,self.y,10)
 end
+
+
+function Bullet:CircleCircleCollision(otherX,otherY,otherSize)
+
+    local deltaX = self.x - otherX
+    local deltaY = self.y - otherY
+
+    local dist = math.sqrt(deltaX*deltaX+deltaY*deltaY)
+
+    if dist < otherSize + self.size then
+        return true
+    else
+        return false
+    end
+
+end
+
 
 return Bullet

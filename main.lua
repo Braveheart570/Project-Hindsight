@@ -64,6 +64,7 @@ function love.draw()
 
     --hidden canvas
     love.graphics.setCanvas(entityCanvas)
+    love.graphics.clear()
     Screens[1]:drawEntities()
 
 

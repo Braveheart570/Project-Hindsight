@@ -1,5 +1,5 @@
 local Bullet = require("bullet")
-Bullets = {}
+
 
 
 Player = {
@@ -8,6 +8,7 @@ Player = {
     r=math.rad(45),
     size = 30,
     speed = 150,
+    Bullets = {}
 }
 
 function Player:drawVisionMask()
@@ -35,7 +36,7 @@ function Player:draw()
     love.graphics.setColor(1,1,0)
     love.graphics.circle("fill",Player.x,Player.y,Player.size)
 
-    for i,v in ipairs(Bullets) do
+    for i,v in ipairs(self.Bullets) do
         v:draw()
     end
 
@@ -61,10 +62,10 @@ function Player:update(dt)
     end
 
     --bullet code
-    for i,v in ipairs(Bullets) do
+    for i,v in ipairs(self.Bullets) do
         v:update(dt)
         if v.lifetime <= 0 then
-            table.remove(Bullets,i)
+            table.remove(self.Bullets,i)
         end
     end
 end
@@ -78,7 +79,7 @@ function Player:mousepressed(x,y,button)
     if(button == 1)then
         local vx = math.cos(Player.r)
         local vy = math.sin(Player.r)
-        table.insert(Bullets,Bullet(Player.x,Player.y,vx,vy))
+        table.insert(self.Bullets,Bullet(Player.x,Player.y,vx,vy))
     end
 end
 

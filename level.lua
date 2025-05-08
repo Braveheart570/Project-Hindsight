@@ -4,11 +4,18 @@ local Level = Screen:extend()
 require "Player"
 
 local walls = {}
+local Enemies = {}
 
 function Level:new()
     local Wall = require("wall")
-    --table.insert(walls,Wall(CanvasWidth/2 - 200,CanvasHeight/2 - 25,30,100))
+    local Enemy = require("enemy")
+
+    table.insert(walls,Wall(CanvasWidth/2 - 200,CanvasHeight/2 - 25,30,100))
     table.insert(walls,Wall(CanvasWidth/2 + 200,CanvasHeight/2 + 25,200,200))
+
+    table.insert(Enemies,Enemy(CanvasWidth/2 + 200,CanvasHeight/2 - 100,0))
+    table.insert(Enemies,Enemy(CanvasWidth/2 - 200,CanvasHeight/2 + 150,0))
+
 end
 
 function Level:update(dt)
@@ -19,6 +26,21 @@ function Level:update(dt)
         if v:CheckCollisionWithCircle(Player.x,Player.y,Player.size) then
             Player:resolveWallCollision(v)
         end
+    end
+
+    
+
+    for i,enemy in ipairs(Enemies)do
+        for j, bullet in ipairs(Player.Bullets)do
+            if bullet:CircleCircleCollision(enemy.x,enemy.y,enemy.size)then
+                table.remove(Player.Bullets,j)
+                enemy.health = enemy.health - 1
+                if enemy.health <= 0 then
+                    table.remove(Enemies,i)
+                end
+            end
+        end
+        enemy:update(dt)
     end
     
 end
@@ -33,18 +55,15 @@ function Level:drawEnv()
         v:draw()
     end
     Player:draw()
-
-    love.graphics.setColor(0,1,0)
-    love.graphics.setFont(love.graphics.newFont(20))
-    for i,v in ipairs(walls)do
-        love.graphics.print(i .. " : " .. tostring(v:CheckCollisionWithCircle(Player.x,Player.y,Player.size)),Player.x - 300,Player.y - 300 + 25*i)
-    end
 end
 
 function Level:drawEntities()
-    love.graphics.setColor(1,0,0)
-    love.graphics.circle("fill",CanvasWidth/2 + 200,CanvasHeight/2 - 100,50)
-
+    for i,v in ipairs(Enemies)do
+        if v.health > 0 then
+            v:draw()
+        end
+        
+    end
 end
 
 function Level:keypressed(key)
