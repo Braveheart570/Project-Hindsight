@@ -23,9 +23,14 @@ function Level:update(dt)
 
     Player:update(dt)
 
-    for i,v in ipairs(walls)do
-        if v:CheckCollisionWithCircle(Player.x,Player.y,Player.size) then
-            Player:resolveWallCollision(v)
+    for i,wall in ipairs(walls)do
+        if wall:CheckCollisionWithCircle(Player.x,Player.y,Player.size) then
+            Player:resolveWallCollision(wall)
+        end
+        for j,enemy in ipairs(Enemies)do
+            if wall:CheckCollisionWithCircle(enemy.x,enemy.y,enemy.size) then
+                enemy:resolveWallCollision(wall)
+            end
         end
     end
 

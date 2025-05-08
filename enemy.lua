@@ -6,7 +6,7 @@ function Enemy:new(x,y,r)
     self.y = y
     self.r = r
     self.size = 40
-    self.speed = 120
+    self.speed = 100
     self.health = 5
     self.detectionRadius = 200
     self.lossTargetRadius = 600
@@ -49,5 +49,36 @@ function Enemy:draw()
     love.graphics.setColor(1,0,0)
     love.graphics.circle("fill",self.x,self.y,self.size)
 end
+
+
+
+function Enemy:resolveWallCollision(wall)
+
+    local closestX = math.max(wall.x, math.min(self.x, wall.x + wall.w))
+    local closestY = math.max(wall.y, math.min(self.y, wall.y + wall.h))
+
+    local distToClosestX = self.x - closestX
+    local distToClosestY = self.y - closestY
+    
+
+    if distToClosestX == 0 then
+        if closestY > self.y then
+            self.y = closestY - self.size
+        else
+            self.y = closestY + self.size
+        end
+        
+    else
+        if closestX > self.x then
+            self.x = closestX - self.size
+        else
+            self.x = closestX + self.size
+        end
+        
+    end
+
+end
+
+
 
 return Enemy
