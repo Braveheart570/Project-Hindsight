@@ -14,6 +14,9 @@ end
 function Screen:drawEntities()
 end
 
+function Screen:drawUI()
+end
+
 function Screen:keypressed(key)
 end
 

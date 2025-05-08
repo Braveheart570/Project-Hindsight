@@ -82,10 +82,12 @@ function love.draw()
     maskShader:send("entities",entityCanvas)
     love.graphics.setColor({1,1,1})
     love.graphics.draw(envCanvas)
+    love.graphics.setShader()
+    Screens[1]:drawUI()
 
     love.graphics.pop()
 
-    love.graphics.setShader()
+    
 
 
 end

@@ -69,8 +69,13 @@ function Level:drawEntities()
         if v.health > 0 then
             v:draw()
         end
-        
     end
+end
+
+function Level:drawUI()
+    love.graphics.setColor(1,1,1)
+    love.graphics.setFont(love.graphics.newFont(25))
+    love.graphics.print("Health: "..Player.health,Player.x - love.graphics.getWidth()/2 + 30,Player.y - love.graphics.getHeight()/2 + 30)
 end
 
 function Level:keypressed(key)

@@ -8,6 +8,7 @@ Player = {
     r=math.rad(45),
     size = 30,
     speed = 150,
+    health = 10,
     Bullets = {}
 }
 
@@ -20,7 +21,7 @@ function Player:drawVisionMask()
     local p1 = {}
     local p2 = {}
     local viewAngle = 90
-    local length = 1000
+    local length = 1500
 
     p1.x = (math.cos(math.rad(180) + Player.r - math.rad(viewAngle/2)) * length) + Player.x
     p1.y = (math.sin(math.rad(180) + Player.r - math.rad(viewAngle/2)) * length) + Player.y
