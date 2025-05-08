@@ -41,6 +41,7 @@ function Level:update(dt)
             if bullet:CircleCircleCollision(enemy.x,enemy.y,enemy.size)then
                 table.remove(Player.Bullets,j)
                 enemy.health = enemy.health - 1
+                enemy.state = 1
                 if enemy.health <= 0 then
                     table.remove(Enemies,i)
                 end
