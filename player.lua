@@ -80,3 +80,26 @@ function Player:mousepressed(x,y,button)
         table.insert(Bullets,Bullet(Player.x,Player.y,vx,vy))
     end
 end
+
+
+function Player:resolveWallCollision(wall)
+
+    local closestX = math.max(wall.x, math.min(self.x, wall.x + wall.w))
+    local closestY = math.max(wall.y, math.min(self.y, wall.y + wall.h))
+
+    local distToClosestX = Player.x - closestX
+    local distToClosestY = Player.y - closestY
+
+    local normalAngle = math.atan2(distToClosestY,distToClosestX)
+    
+
+    if distToClosestX == 0 then
+        Player.y = Player.y + distToClosestY
+    else
+        Player.x = Player.x -Player.r + distToClosestX
+    end
+
+    
+    
+
+end

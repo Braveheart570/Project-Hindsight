@@ -15,7 +15,11 @@ function Level:update(dt)
 
     Player:update(dt)
 
-    
+    for i,v in ipairs(walls)do
+        if v:CheckCollisionWithCircle(Player.x,Player.y,Player.size) then
+            Player:resolveWallCollision(v)
+        end
+    end
     
 end
 
