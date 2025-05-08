@@ -8,8 +8,8 @@ function Enemy:new(x,y,r)
     self.size = 40
     self.speed = 100
     self.health = 5
-    self.detectionRadius = 200
-    self.lossTargetRadius = 600
+    self.detectionRadius = 150
+    self.loseTargetRadius = 450
     --[[
     states:
     0 - wander
@@ -26,8 +26,8 @@ function Enemy:update(dt)
         end
     elseif self.state == 1 then
 
-        if CircleCircleCollision(Player.x,Player.y,Player.size,self.x,self.y,self.lossTargetRadius) == true then
-            self.state = 1
+        if CircleCircleCollision(Player.x,Player.y,Player.size,self.x,self.y,self.loseTargetRadius) == false then
+            self.state = 0
         end
 
         local deltaX = Player.x - self.x
@@ -48,6 +48,8 @@ end
 function Enemy:draw()
     love.graphics.setColor(1,0,0)
     love.graphics.circle("fill",self.x,self.y,self.size)
+    --love.graphics.circle("line",self.x,self.y,self.detectionRadius)
+    --love.graphics.circle("line",self.x,self.y,self.loseTargetRadius)
 end
 
 

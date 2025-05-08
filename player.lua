@@ -19,7 +19,7 @@ function Player:drawVisionMask()
 
     local p1 = {}
     local p2 = {}
-    local viewAngle = 40
+    local viewAngle = 90
     local length = 1000
 
     p1.x = (math.cos(math.rad(180) + Player.r - math.rad(viewAngle/2)) * length) + Player.x
