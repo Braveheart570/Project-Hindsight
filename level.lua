@@ -10,8 +10,9 @@ function Level:new()
     local Wall = require("wall")
     local Enemy = require("enemy")
 
-    table.insert(walls,Wall(CanvasWidth/2 - 200,CanvasHeight/2 - 25,30,100))
-    table.insert(walls,Wall(CanvasWidth/2 + 200,CanvasHeight/2 + 25,200,200))
+    table.insert(walls,Wall(CanvasWidth/2 - 300,CanvasHeight/2 - 300,30,800))
+    table.insert(walls,Wall(CanvasWidth/2 - 300,CanvasHeight/2 - 300,800,30))
+    table.insert(walls,Wall(CanvasWidth/2 + 500,CanvasHeight/2 -300,30,800))
 
     table.insert(Enemies,Enemy(CanvasWidth/2 + 200,CanvasHeight/2 - 100,0))
     table.insert(Enemies,Enemy(CanvasWidth/2 - 200,CanvasHeight/2 + 150,0))

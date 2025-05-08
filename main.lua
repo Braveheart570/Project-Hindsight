@@ -2,6 +2,8 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
     require("lldebugger").start()
   end
 
+require("utils")
+
   -- loads files as a string
 local function loadFile(file)
     local f = assert(io.open(file, "rb"))

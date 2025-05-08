@@ -12,12 +12,6 @@ end
 function Wall:draw()
     love.graphics.setColor(0.5,0.5,0.5)
     love.graphics.rectangle("fill",self.x,self.y,self.w,self.h)
-
-    local closestX = math.max(self.x, math.min(Player.x, self.x + self.w))
-    local closestY = math.max(self.y, math.min(Player.y, self.y + self.h))
-    love.graphics.setColor(1,0.5,0)
-    love.graphics.circle("fill",closestX,closestY,10)
-
 end
 
 function Wall:CheckCollisionWithCircle(cx,cy,cr)
