@@ -27,20 +27,4 @@ function Bullet:draw()
 end
 
 
-function Bullet:CircleCircleCollision(otherX,otherY,otherSize)
-
-    local deltaX = self.x - otherX
-    local deltaY = self.y - otherY
-
-    local dist = math.sqrt(deltaX*deltaX+deltaY*deltaY)
-
-    if dist < otherSize + self.size then
-        return true
-    else
-        return false
-    end
-
-end
-
-
 return Bullet

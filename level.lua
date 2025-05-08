@@ -23,6 +23,7 @@ function Level:update(dt)
 
     Player:update(dt)
 
+    --wall collisions
     for i,wall in ipairs(walls)do
         if wall:CheckCollisionWithCircle(Player.x,Player.y,Player.size) then
             Player:resolveWallCollision(wall)
@@ -35,10 +36,10 @@ function Level:update(dt)
     end
 
     
-
+    -- bullet collisions
     for i,enemy in ipairs(Enemies)do
         for j, bullet in ipairs(Player.Bullets)do
-            if bullet:CircleCircleCollision(enemy.x,enemy.y,enemy.size)then
+            if CircleCircleCollision(bullet.x,bullet.y,bullet.size,enemy.x,enemy.y,enemy.size)then
                 table.remove(Player.Bullets,j)
                 enemy.health = enemy.health - 1
                 enemy.state = 1
@@ -48,7 +49,11 @@ function Level:update(dt)
             end
         end
         enemy:update(dt)
+        --enemy vs player collisions todo
+        
     end
+
+    
     
 end
 
