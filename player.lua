@@ -22,11 +22,11 @@ function Player:drawVisionMask()
     local viewAngle = 40
     local length = 1000
 
-    p1.x = (math.cos(Player.r - math.rad(viewAngle/2)) * length) + Player.x
-    p1.y = (math.sin(Player.r - math.rad(viewAngle/2)) * length) + Player.y
+    p1.x = (math.cos(math.rad(180) + Player.r - math.rad(viewAngle/2)) * length) + Player.x
+    p1.y = (math.sin(math.rad(180) + Player.r - math.rad(viewAngle/2)) * length) + Player.y
 
-    p2.x = (math.cos(Player.r + math.rad(viewAngle/2)) * length) + Player.x
-    p2.y = (math.sin(Player.r + math.rad(viewAngle/2)) * length) + Player.y
+    p2.x = (math.cos(math.rad(180) + Player.r + math.rad(viewAngle/2)) * length) + Player.x
+    p2.y = (math.sin(math.rad(180) + Player.r + math.rad(viewAngle/2)) * length) + Player.y
 
     love.graphics.polygon("fill",{Player.x,Player.y,p1.x,p1.y,p2.x,p2.y})
 end
@@ -59,6 +59,14 @@ function Player:update(dt)
     elseif love.keyboard.isDown("w") then
         Player.x = Player.x + math.cos(Player.r) * Player.speed * dt
         Player.y = Player.y + math.sin(Player.r) * Player.speed * dt
+    end
+
+    if love.keyboard.isDown("a") then
+        Player.x = Player.x - math.cos(Player.r + math.rad(90)) * Player.speed * dt
+        Player.y = Player.y - math.sin(Player.r + math.rad(90)) * Player.speed * dt
+    elseif love.keyboard.isDown("d") then
+        Player.x = Player.x + math.cos(Player.r + math.rad(90)) * Player.speed * dt
+        Player.y = Player.y + math.sin(Player.r + math.rad(90)) * Player.speed * dt
     end
 
     --bullet code
