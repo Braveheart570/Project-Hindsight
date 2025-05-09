@@ -88,7 +88,10 @@ function Level:update(dt)
 
     end
 
-    
+    -- win condition
+    if CheckCollisionWithCircle(self.exit.x,self.exit.y,self.exit.w,self.exit.h,Player.x,Player.y,Player.size)then
+        ChangeScreen(4)
+    end
     
 end
 
