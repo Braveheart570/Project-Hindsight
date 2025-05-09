@@ -12,6 +12,7 @@ local function loadFile(file)
     return content
 end
 
+
 local maskShader
 
 local visionMaskCanvas
@@ -20,6 +21,20 @@ local entityCanvas
 
 local Screens = {}
 
+local SCREEN_INDEX = 1
+
+function ChangeScreen(index)
+
+    if index > #Screens then
+        print("invalid index")
+        return
+    end
+
+    SCREEN_INDEX = index
+
+    Screens[SCREEN_INDEX]:reset()
+
+end
 
 
 function love.load()
@@ -36,7 +51,9 @@ function love.load()
     entityCanvas = love.graphics.newCanvas(CanvasWidth, CanvasHeight);
 
     local Level = require "level"
+    local StartScreen = require "startScreen"
 
+    table.insert(Screens,StartScreen())
     table.insert(Screens,Level())
 
     
@@ -46,7 +63,7 @@ end
 
 function love.update(dt)
 
-    Screens[1]:update(dt)
+    Screens[SCREEN_INDEX]:update(dt)
 
 
 end
@@ -56,7 +73,7 @@ function love.draw()
     
     --mask canvas
     love.graphics.setCanvas(visionMaskCanvas)
-    if Screens[1].renderPlayerView == true then
+    if Screens[SCREEN_INDEX].renderPlayerView == true then
         Player:drawVisionMask()
     else
         love.graphics.setColor(1,1,1)
@@ -67,13 +84,13 @@ function love.draw()
 
     --scene canvas
     love.graphics.setCanvas(envCanvas)
-    Screens[1]:drawEnv()
+    Screens[SCREEN_INDEX]:drawEnv()
 
 
     --hidden canvas
     love.graphics.setCanvas(entityCanvas)
     love.graphics.clear()
-    Screens[1]:drawEntities()
+    Screens[SCREEN_INDEX]:drawEntities()
 
 
     -- rendering
@@ -89,7 +106,7 @@ function love.draw()
     love.graphics.setColor({1,1,1})
     love.graphics.draw(envCanvas)
     love.graphics.setShader()
-    Screens[1]:drawUI()
+    Screens[SCREEN_INDEX]:drawUI()
 
     love.graphics.pop()
 
@@ -101,7 +118,7 @@ end
 
 function love.keypressed(key)
 
-    Screens[1]:keypressed(key)
+    Screens[SCREEN_INDEX]:keypressed(key)
 
 end
 
@@ -109,7 +126,7 @@ end
 
 function love.mousepressed(x,y,button)
     
-    Screens[1]:mousepressed(x,y,button)
+    Screens[SCREEN_INDEX]:mousepressed(x,y,button)
 
 end
 

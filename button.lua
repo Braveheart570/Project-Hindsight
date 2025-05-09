@@ -28,7 +28,6 @@ end
 function Button:CheckPressed(x,y)
     if x >= self.x and x <= self.x + self.w and
            y >= self.y and y <= self.y + self.h then
-            SelectSfx:play()
             self.action()
             return
         end
