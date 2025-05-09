@@ -53,10 +53,12 @@ function love.load()
     local Level = require "level"
     local StartScreen = require "startScreen"
     local GameOverScreen = require "gameOverScreen"
+    local WinScreen = require "winScreen"
 
     table.insert(Screens,StartScreen())
     table.insert(Screens,Level())
     table.insert(Screens,GameOverScreen())
+    table.insert(Screens,WinScreen())
 
     
 

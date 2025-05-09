@@ -3,13 +3,11 @@ local Level = Screen:extend()
 
 require "Player"
 
-local walls = {}
-local Enemies = {}
+
 
 function Level:new()
     self.super:new()
     self.renderPlayerView = true
-    
 
     self:reset()
     
@@ -21,15 +19,22 @@ function Level:reset()
 
     Player:reset()
 
-    walls = {}
-    Enemies = {}
+    self.walls = {}
+    self.Enemies = {}
 
-    table.insert(walls,Wall(CanvasWidth/2 - 300,CanvasHeight/2 - 300,30,800))
-    table.insert(walls,Wall(CanvasWidth/2 - 300,CanvasHeight/2 - 300,800,30))
-    table.insert(walls,Wall(CanvasWidth/2 + 500,CanvasHeight/2 -300,30,800))
+    self.exit = {
+        x=CanvasWidth/2,
+        y=CanvasHeight/2 + 400,
+        w=50,
+        h=50
+    }
 
-    table.insert(Enemies,Enemy(CanvasWidth/2 + 200,CanvasHeight/2 - 100,0))
-    table.insert(Enemies,Enemy(CanvasWidth/2 - 200,CanvasHeight/2 + 150,0))
+    table.insert(self.walls,Wall(CanvasWidth/2 - 300,CanvasHeight/2 - 300,30,800))
+    table.insert(self.walls,Wall(CanvasWidth/2 - 300,CanvasHeight/2 - 300,800,30))
+    table.insert(self.walls,Wall(CanvasWidth/2 + 500,CanvasHeight/2 -300,30,800))
+
+    table.insert(self.Enemies,Enemy(CanvasWidth/2 + 200,CanvasHeight/2 - 100,0))
+    table.insert(self.Enemies,Enemy(CanvasWidth/2 - 200,CanvasHeight/2 + 150,0))
 
 end
 
@@ -44,11 +49,11 @@ function Level:update(dt)
     Player:update(dt)
 
     --wall collisions
-    for i,wall in ipairs(walls)do
+    for i,wall in ipairs(self.walls)do
         if wall:CheckCollisionWithCircle(Player.x,Player.y,Player.size) then
             Player:resolveWallCollision(wall)
         end
-        for j,enemy in ipairs(Enemies)do
+        for j,enemy in ipairs(self.Enemies)do
             if wall:CheckCollisionWithCircle(enemy.x,enemy.y,enemy.size) then
                 enemy:resolveWallCollision(wall)
             end
@@ -57,7 +62,7 @@ function Level:update(dt)
 
     
    
-    for i,enemy in ipairs(Enemies)do
+    for i,enemy in ipairs(self.Enemies)do
 
          -- bullet collisions
         for j, bullet in ipairs(Player.Bullets)do
@@ -67,7 +72,7 @@ function Level:update(dt)
                 enemy.state = 1
                 enemy.pauseTimer = enemy.pauseTime; -- todo this should be done somewhere else
                 if enemy.health <= 0 then
-                    table.remove(Enemies,i)
+                    table.remove(self.Enemies,i)
                 end
             end
         end
@@ -93,14 +98,21 @@ function Level:drawEnv()
     love.graphics.rectangle("fill",0,0,CanvasWidth,CanvasHeight/2)
     love.graphics.setColor(0,0.7,0.1)
     love.graphics.rectangle("fill",0,CanvasHeight/2,CanvasWidth,CanvasHeight)
-    for i,v in ipairs(walls)do
+    for i,v in ipairs(self.walls)do
         v:draw()
     end
+
+    --render exit
+    love.graphics.setColor(0.7,1,0.7)
+    love.graphics.rectangle("fill",self.exit.x,self.exit.y,self.exit.w,self.exit.h)
+
     Player:draw()
+
+
 end
 
 function Level:drawEntities()
-    for i,v in ipairs(Enemies)do
+    for i,v in ipairs(self.Enemies)do
         if v.health > 0 then
             v:draw()
         end
