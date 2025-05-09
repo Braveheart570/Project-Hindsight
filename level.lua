@@ -35,6 +35,12 @@ end
 
 function Level:update(dt)
 
+    -- death check
+    if Player.health <= 0 then
+        ChangeScreen(3)
+    end
+
+
     Player:update(dt)
 
     --wall collisions

@@ -52,9 +52,11 @@ function love.load()
 
     local Level = require "level"
     local StartScreen = require "startScreen"
+    local GameOverScreen = require "gameOverScreen"
 
     table.insert(Screens,StartScreen())
     table.insert(Screens,Level())
+    table.insert(Screens,GameOverScreen())
 
     
 
@@ -98,7 +100,11 @@ function love.draw()
 
     love.graphics.clear()
     love.graphics.push()
-    love.graphics.translate(-Player.x + love.graphics.getWidth()/2,-Player.y + love.graphics.getHeight()/2)
+    if SCREEN_INDEX == 2 then
+        love.graphics.translate(-Player.x + love.graphics.getWidth()/2,-Player.y + love.graphics.getHeight()/2)
+    else
+        love.graphics.translate(-CanvasWidth/2 + love.graphics.getWidth()/2,-CanvasHeight/2 + love.graphics.getHeight()/2)
+    end
 
     love.graphics.setShader(maskShader)
     maskShader:send("mask",visionMaskCanvas)
