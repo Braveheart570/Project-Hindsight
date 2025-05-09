@@ -126,13 +126,11 @@ function Level:drawUI()
     love.graphics.setColor(1,1,1)
     love.graphics.setFont(love.graphics.newFont(25))
     love.graphics.print("Health: "..Player.health,Player.x - love.graphics.getWidth()/2 + 30,Player.y - love.graphics.getHeight()/2 + 30)
+    love.graphics.print("Ammo: "..Player.mag.."/"..Player.magCapacity,Player.x + love.graphics.getWidth()/2 - 170,Player.y - love.graphics.getHeight()/2 + 30)
 end
 
 function Level:keypressed(key)
     Player:keypressed(key)
-    if key == "r"then
-        self:reset()
-    end
 end
 
 function Level:mousepressed(x,y,button)

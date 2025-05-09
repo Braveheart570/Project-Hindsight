@@ -21,6 +21,8 @@ function Player:reset()
     self.speed = 150
     self.sprintSpeed = 250
     self.health = 10
+    self.magCapacity = 6
+    self.mag = self.magCapacity
     self.Bullets = {}
 end
 
@@ -99,14 +101,17 @@ end
 
 
 function Player:keypressed(key)
-    
+    if key == "r" then
+        self.mag = self.magCapacity
+    end
 end
 
 function Player:mousepressed(x,y,button)
-    if(button == 1)then
+    if button == 1 and self.mag > 0 then
         local vx = math.cos(Player.r)
         local vy = math.sin(Player.r)
         table.insert(self.Bullets,Bullet(Player.x,Player.y,vx,vy))
+        self.mag = self.mag - 1
     end
 end
 
