@@ -4,13 +4,7 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
 
 require("utils")
 
-  -- loads files as a string
-local function loadFile(file)
-    local f = assert(io.open(file, "rb"))
-    local content = f:read("*all")
-    f:close()
-    return content
-end
+
 
 
 local maskShader
@@ -40,7 +34,7 @@ end
 function love.load()
     love.window.setMode(1200,800)
     --shaders
-    maskShader = love.graphics.newShader(loadFile("mask.fs"))
+    maskShader = love.graphics.newShader(LoadFile("mask.fs"))
     --canvases
     CanvasWidth, CanvasHeight = love.window.getMode()
     CanvasWidth = CanvasWidth*6

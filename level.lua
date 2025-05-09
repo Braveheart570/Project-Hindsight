@@ -50,11 +50,11 @@ function Level:update(dt)
 
     --wall collisions
     for i,wall in ipairs(self.walls)do
-        if wall:CheckCollisionWithCircle(Player.x,Player.y,Player.size) then
+        if CheckCollisionWithCircle(wall.x,wall.y,wall.w,wall.h,Player.x,Player.y,Player.size) then
             Player:resolveWallCollision(wall)
         end
         for j,enemy in ipairs(self.Enemies)do
-            if wall:CheckCollisionWithCircle(enemy.x,enemy.y,enemy.size) then
+            if CheckCollisionWithCircle(wall.x,wall.y,wall.w,wall.h,enemy.x,enemy.y,enemy.size) then
                 enemy:resolveWallCollision(wall)
             end
         end
