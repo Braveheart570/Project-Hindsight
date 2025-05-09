@@ -10,7 +10,7 @@ function Wall:new(x,y,w,h)
 end
 
 function Wall:draw()
-    love.graphics.setColor(0.5,0.5,0.5)
+    love.graphics.setColor(0.69,0.53,0.41)
     love.graphics.rectangle("fill",self.x,self.y,self.w,self.h)
 end
 
