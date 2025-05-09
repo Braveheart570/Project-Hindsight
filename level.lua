@@ -61,8 +61,33 @@ function Level:reset()
 
 
 
-    table.insert(self.Enemies,Enemy(CanvasWidth/2 + 200,CanvasHeight/2 - 100,0))
-    table.insert(self.Enemies,Enemy(CanvasWidth/2 - 200,CanvasHeight/2 + 150,0))
+    table.insert(self.Enemies,Enemy(CanvasWidth/2 + 200,CanvasHeight/2 - 100))
+    table.insert(self.Enemies,Enemy(CanvasWidth/2 - 200,CanvasHeight/2 + 150))
+
+    table.insert(self.Enemies,Enemy(4141, 2805))
+    table.insert(self.Enemies,Enemy(4952, 2774))
+    table.insert(self.Enemies,Enemy(5054, 2845))
+    table.insert(self.Enemies,Enemy(4782, 2972))
+    table.insert(self.Enemies,Enemy(4939, 3222))
+    table.insert(self.Enemies,Enemy(5320, 2800))
+    table.insert(self.Enemies,Enemy(5195, 2492))
+    table.insert(self.Enemies,Enemy(5183, 2367))
+    table.insert(self.Enemies,Enemy(5280, 2346))
+    table.insert(self.Enemies,Enemy(5365, 2263))
+    table.insert(self.Enemies,Enemy(5231, 2270))
+    table.insert(self.Enemies,Enemy(5195, 2177))
+    table.insert(self.Enemies,Enemy(5317, 2134))
+    table.insert(self.Enemies,Enemy(5607, 2304))
+    table.insert(self.Enemies,Enemy(6032, 2432))
+    table.insert(self.Enemies,Enemy(6060, 2733))
+    table.insert(self.Enemies,Enemy(5723, 2009))
+    table.insert(self.Enemies,Enemy(5114, 2035))
+    table.insert(self.Enemies,Enemy(4713, 2011))
+    table.insert(self.Enemies,Enemy(4735, 2242))
+    table.insert(self.Enemies,Enemy(4523, 2317))
+    table.insert(self.Enemies,Enemy(4396, 2540))
+    table.insert(self.Enemies,Enemy(4208, 2643))
+    table.insert(self.Enemies,Enemy(CanvasWidth/2 + 1670, CanvasHeight/2 - 800))
 
 end
 

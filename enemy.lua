@@ -1,10 +1,9 @@
 local Object = require "classic"
 local Enemy = Object:extend()
 
-function Enemy:new(x,y,r)
+function Enemy:new(x,y)
     self.x = x
     self.y = y
-    self.r = r
     self.size = 40
     self.speed = 100
     self.health = 5
