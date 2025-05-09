@@ -8,6 +8,7 @@ Player = {
     r=math.rad(45),
     size = 30,
     speed = 150,
+    sprintSpeed = 250,
     health = 10,
     Bullets = {}
 }
@@ -58,8 +59,14 @@ function Player:update(dt)
         Player.x = Player.x - math.cos(Player.r) * Player.speed * dt
         Player.y = Player.y - math.sin(Player.r) * Player.speed * dt
     elseif love.keyboard.isDown("w") then
-        Player.x = Player.x + math.cos(Player.r) * Player.speed * dt
-        Player.y = Player.y + math.sin(Player.r) * Player.speed * dt
+        if(love.keyboard.isDown("lshift"))then
+            Player.x = Player.x + math.cos(Player.r) * Player.sprintSpeed * dt
+            Player.y = Player.y + math.sin(Player.r) * Player.sprintSpeed * dt
+        else
+            Player.x = Player.x + math.cos(Player.r) * Player.speed * dt
+            Player.y = Player.y + math.sin(Player.r) * Player.speed * dt
+        end
+        
     end
 
     if love.keyboard.isDown("a") then
