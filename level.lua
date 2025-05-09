@@ -1,7 +1,7 @@
 local Screen = require "screen"
 local Level = Screen:extend()
 
-require "Player"
+require "player"
 
 
 
