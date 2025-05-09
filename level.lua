@@ -9,8 +9,20 @@ local Enemies = {}
 function Level:new()
     self.super:new()
     self.renderPlayerView = true
+    
+
+    self:reset()
+    
+end
+
+function Level:reset()
     local Wall = require("wall")
     local Enemy = require("enemy")
+
+    Player:reset()
+
+    walls = {}
+    Enemies = {}
 
     table.insert(walls,Wall(CanvasWidth/2 - 300,CanvasHeight/2 - 300,30,800))
     table.insert(walls,Wall(CanvasWidth/2 - 300,CanvasHeight/2 - 300,800,30))
@@ -97,13 +109,13 @@ end
 
 function Level:keypressed(key)
     Player:keypressed(key)
+    if key == "r"then
+        self:reset()
+    end
 end
 
 function Level:mousepressed(x,y,button)
     Player:mousepressed(x,y,button)
-end
-
-function Level:reset()
 end
 
 

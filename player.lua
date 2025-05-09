@@ -13,6 +13,17 @@ Player = {
     Bullets = {}
 }
 
+function Player:reset()
+    self.x=CanvasWidth/2
+    self.y=CanvasHeight/2
+    self.r=math.rad(45)
+    self.size = 30
+    self.speed = 150
+    self.sprintSpeed = 250
+    self.health = 10
+    self.Bullets = {}
+end
+
 function Player:drawVisionMask()
     love.graphics.setColor({0.6,0.6,0.7})
     love.graphics.rectangle("fill",0,0,CanvasWidth,CanvasHeight)
