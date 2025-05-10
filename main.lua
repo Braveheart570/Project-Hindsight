@@ -2,119 +2,135 @@ if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
     require("lldebugger").start()
   end
 
-function loadFile(file)
-    local f = assert(io.open(file, "rb"))
-    local content = f:read("*all")
-    f:close()
-    return content
-end
+require("utils")
+
+
+
 
 local maskShader
 
-local image
+local visionMaskCanvas
+local envCanvas
+local entityCanvas
 
-local maskCanvas
+Screens = {}
 
+local SCREEN_INDEX = 1
 
+function ChangeScreen(index)
 
-local mainCanvas
+    if index > #Screens then
+        print("invalid index")
+        return
+    end
 
-local hiddenCanvas --for hidden entities
+    SCREEN_INDEX = index
 
-local player
+    Screens[SCREEN_INDEX]:reset()
+
+end
+
 
 function love.load()
     love.window.setMode(1200,800)
-    image = love.graphics.newImage("map.png")
-    maskShader = love.graphics.newShader(loadFile("mask.fs"))
-    maskCanvas = love.graphics.newCanvas();
-    mainCanvas = love.graphics.newCanvas();
-    hiddenCanvas = love.graphics.newCanvas();
+    --shaders
+    maskShader = love.graphics.newShader(LoadFile("mask.fs"))
+    --canvases
+    CanvasWidth, CanvasHeight = love.window.getMode()
+    CanvasWidth = CanvasWidth*6
+    CanvasHeight = CanvasHeight*6
 
+    visionMaskCanvas = love.graphics.newCanvas(CanvasWidth, CanvasHeight);
+    envCanvas = love.graphics.newCanvas(CanvasWidth, CanvasHeight);
+    entityCanvas = love.graphics.newCanvas(CanvasWidth, CanvasHeight);
 
-    player = {
-        x=love.graphics.getWidth()/2,
-        y=love.graphics.getHeight()/2,
-        r=math.rad(45),
-        speed = 50
-    }
+    local Level = require "level"
+    local StartScreen = require "startScreen"
+    local GameOverScreen = require "gameOverScreen"
+    local WinScreen = require "winScreen"
+
+    table.insert(Screens,StartScreen())
+    table.insert(Screens,Level())
+    table.insert(Screens,GameOverScreen())
+    table.insert(Screens,WinScreen())
+
+    
 
 end
 
 
 function love.update(dt)
 
-    if love.keyboard.isDown("d") then
-        player.r = player.r + math.rad(player.speed)*dt
-    elseif love.keyboard.isDown("a") then
-        player.r = player.r - math.rad(player.speed)*dt
-    end
+    Screens[SCREEN_INDEX]:update(dt)
 
 
-    player.vx = math.sin(player.r)
-    player.vy = math.cos(player.r)
 end
 
 
 function love.draw()
-
+    
     --mask canvas
-    love.graphics.setCanvas(maskCanvas)
-    love.graphics.setColor({0.2,0.2,0.2})
-    love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
-    love.graphics.setColor(1,1,1)
-    love.graphics.circle("fill",player.x,player.y,50)
-
-    local p1 = {}
-    local p2 = {}
-    local viewAngle = 40
-    local length = 1000
-
-    p1.x = (math.cos(player.r - math.rad(viewAngle/2)) * length) + player.x
-    p1.y = (math.sin(player.r - math.rad(viewAngle/2)) * length) + player.y
-
-    p2.x = (math.cos(player.r + math.rad(viewAngle/2)) * length) + player.x
-    p2.y = (math.sin(player.r + math.rad(viewAngle/2)) * length) + player.y
-
-    love.graphics.polygon("fill",{player.x,player.y,p1.x,p1.y,p2.x,p2.y})
-
-
-    --hidden canvas
-    love.graphics.setCanvas(hiddenCanvas)
-    love.graphics.setColor({0,0,0})
-    love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
-    love.graphics.setColor({1,0,0})
-    love.graphics.circle("fill",love.graphics.getWidth()/2 + 200, love.graphics.getHeight()/2 + 100,50)
+    love.graphics.setCanvas(visionMaskCanvas)
+    if Screens[SCREEN_INDEX].renderPlayerView == true then
+        Player:drawVisionMask()
+    else
+        love.graphics.setColor(1,1,1)
+        love.graphics.rectangle("fill",0,0,CanvasWidth,CanvasHeight)
+    end
+    
 
 
     --scene canvas
-    love.graphics.setCanvas(mainCanvas)
-    love.graphics.setColor({1,1,1})
-    love.graphics.draw(image,love.graphics.getWidth()/2 - image:getWidth()/2,love.graphics.getHeight()/2 - image:getHeight()/2)
+    love.graphics.setCanvas(envCanvas)
+    Screens[SCREEN_INDEX]:drawEnv()
+
+
+    --hidden canvas
+    love.graphics.setCanvas(entityCanvas)
+    love.graphics.clear()
+    Screens[SCREEN_INDEX]:drawEntities()
 
 
     -- rendering
     love.graphics.setCanvas()
+
+    love.graphics.clear()
+    love.graphics.push()
+    if SCREEN_INDEX == 2 then
+        love.graphics.translate(-Player.x + love.graphics.getWidth()/2,-Player.y + love.graphics.getHeight()/2)
+    else
+        love.graphics.translate(-CanvasWidth/2 + love.graphics.getWidth()/2,-CanvasHeight/2 + love.graphics.getHeight()/2)
+    end
+
     love.graphics.setShader(maskShader)
-    maskShader:send("mask",maskCanvas)
-    maskShader:send("entities",hiddenCanvas)
-    love.graphics.draw(mainCanvas)
+    maskShader:send("mask",visionMaskCanvas)
+    maskShader:send("entities",entityCanvas)
+    love.graphics.setColor({1,1,1})
+    love.graphics.draw(envCanvas)
     love.graphics.setShader()
+    Screens[SCREEN_INDEX]:drawUI()
+
+    love.graphics.pop()
+
+    
 
 
-
-    love.graphics.setShader()
 end
 
 
 function love.keypressed(key)
 
-    if key == "r" then love.event.quit "restart" end
+    Screens[SCREEN_INDEX]:keypressed(key)
 
 end
 
 
 
+function love.mousepressed(x,y,button)
+    
+    Screens[SCREEN_INDEX]:mousepressed(x,y,button)
+
+end
 
 --sits at the bottom of our script
 local love_errorhandler = love.errorhandler
