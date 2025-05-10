@@ -157,7 +157,6 @@ function Level:drawEnv()
     for i,v in ipairs(self.walls)do
         v:draw()
         love.graphics.setColor(1,1,1)
-        love.graphics.print("index: "..i,v.x,v.y)
     end
 
     --render exit
@@ -182,16 +181,6 @@ function Level:drawUI()
     love.graphics.setFont(love.graphics.newFont(25))
     love.graphics.print("Health: "..Player.health,Player.x - love.graphics.getWidth()/2 + 30,Player.y - love.graphics.getHeight()/2 + 30)
     love.graphics.print("Ammo: "..Player.mag.."/"..Player.magCapacity,Player.x + love.graphics.getWidth()/2 - 170,Player.y - love.graphics.getHeight()/2 + 30)
-
-    
-    for i,v in ipairs(self.walls)do
-        if v.w > v.h then
-            love.graphics.setColor(1,0,0)
-        else
-            love.graphics.setColor(0,0,1)
-        end
-        love.graphics.print("index: "..i,v.x,v.y)
-    end
 end
 
 function Level:keypressed(key)
