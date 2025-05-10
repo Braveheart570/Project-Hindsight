@@ -1,5 +1,8 @@
 local Bullet = require("bullet")
 
+local hit = love.audio.newSource("sounds/hit.ogg", "static")
+local gunShot = love.audio.newSource("sounds/gunshot.ogg", "static")
+local gunLoad = love.audio.newSource("sounds/gunload.ogg", "static")
 
 
 Player = {
@@ -124,15 +127,17 @@ end
 function Player:keypressed(key)
     if key == "r" then
         self.mag = self.magCapacity
+        restartSound(gunLoad)
     end
 end
 
 function Player:mousepressed(x,y,button)
-    if button == 1 and self.mag > 0 then
+    if button == 1 and self.mag > 0 and gunLoad:isPlaying() == false then
         local vx = math.cos(Player.r)
         local vy = math.sin(Player.r)
         table.insert(self.Bullets,Bullet(Player.x,Player.y,vx,vy))
         self.mag = self.mag - 1
+        restartSound(gunShot)
     end
 end
 
@@ -167,4 +172,7 @@ function Player:takeDamage()
     self.health = self.health - 1
     self.tookDamage = true
     self.damageTimer = self.damageTime
+
+    restartSound(hit)
+
 end

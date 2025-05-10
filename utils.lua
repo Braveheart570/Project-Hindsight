@@ -41,3 +41,11 @@ function CheckCollisionWithCircle(bx,by,bw,bh,cx,cy,cr)
     return (dx * dx + dy * dy) < (cr * cr)
 
 end
+
+-- overlap sound in itself
+function restartSound(sound)
+    if(sound:isPlaying() == true)then
+        sound:stop()
+    end
+    sound:play()
+end
