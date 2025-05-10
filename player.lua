@@ -10,7 +10,10 @@ Player = {
     speed = 150,
     sprintSpeed = 250,
     health = 10,
-    Bullets = {}
+    Bullets = {},
+    tookDamage = false,
+    damageTime = 0.5,
+    damageTimer = 0
 }
 
 function Player:reset()
@@ -24,10 +27,18 @@ function Player:reset()
     self.magCapacity = 6
     self.mag = self.magCapacity
     self.Bullets = {}
+    self.tookDamage = false
+    self.damageTime = 0.5
+    self.damageTimer = 0
 end
 
 function Player:drawVisionMask()
-    love.graphics.setColor({0.6,0.6,0.7})
+    if self.tookDamage == true then
+        love.graphics.setColor({1,0.6,0.6})
+    else
+        love.graphics.setColor({0.6,0.6,0.7})
+    end
+    
     love.graphics.rectangle("fill",0,0,CanvasWidth,CanvasHeight)
     love.graphics.setColor(1,1,1)
     love.graphics.circle("fill",Player.x,Player.y,50)
@@ -97,6 +108,16 @@ function Player:update(dt)
             table.remove(self.Bullets,i)
         end
     end
+
+    --damage effect timer
+    if self.tookDamage == true then
+        self.damageTimer = self.damageTimer - dt
+        if self.damageTimer <= 0 then
+            self.tookDamage = false
+        end
+    end
+
+
 end
 
 
@@ -144,4 +165,6 @@ end
 
 function Player:takeDamage()
     self.health = self.health - 1
+    self.tookDamage = true
+    self.damageTimer = self.damageTime
 end
