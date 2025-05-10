@@ -44,6 +44,14 @@ function GameOverScreen:drawUI()
     love.graphics.print(titleText, titleBox.x + (titleBox.width / 2) - (titleTextWidth / 2),
     titleBox.y + (titleBox.height / 2) - (titleTextHeight / 2))
 
+    local scoreFont = love.graphics.newFont(20)
+    love.graphics.setFont(scoreFont)
+    local scoreText = "you killed " .. Screens[2].totalEnemies - #Screens[2].Enemies .."/"..Screens[2].totalEnemies .. " enemies."
+    local scoreTextWidth = scoreFont:getWidth(scoreText)
+    local scoreTextHeight = scoreFont:getHeight(scoreText)
+    love.graphics.print(scoreText, titleBox.x + (titleBox.width / 2) - (scoreTextWidth / 2),
+    titleBox.y + 100 + (titleBox.height / 2) - (scoreTextHeight / 2))
+
 
 end
    

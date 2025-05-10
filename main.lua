@@ -13,7 +13,7 @@ local visionMaskCanvas
 local envCanvas
 local entityCanvas
 
-local Screens = {}
+Screens = {}
 
 local SCREEN_INDEX = 1
 

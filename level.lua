@@ -89,6 +89,8 @@ function Level:reset()
     table.insert(self.Enemies,Enemy(4208, 2643))
     table.insert(self.Enemies,Enemy(CanvasWidth/2 + 1670, CanvasHeight/2 - 800))
 
+    self.totalEnemies = #self.Enemies
+
 end
 
 function Level:update(dt)
